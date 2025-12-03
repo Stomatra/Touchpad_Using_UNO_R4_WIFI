@@ -54,26 +54,50 @@ void setup() {
 	Serial.println("Mouse initialized successfully");
 }
 
-// the loop function runs over and over again until power down or reset
+bool crazycilckmode = false;
+u_int16_t delaytime = 100;
+
 void loop() {
 	if (ts.touched()) {
 		TS_Point p = ts.getPoint();
-		Serial.print("X = "); Serial.print(p.x);
-		Serial.print("\tY = "); Serial.print(p.y);
-		Serial.print("\tPressure = "); Serial.println(p.z);
-		int16_t x = map(p.x, 1, 4095, 0, 1920); // Map to screen resolution
-		int16_t y = map(p.y, 1, 4095, 0, 1080);// Map to screen resolution
+		int16_t x = map(p.x, 1, 4095, 0, 1920);
+		int16_t y = map(p.y, 1, 4095, 0, 1080);
 		int16_t x1 = x - 960;
-		int16_t y1 = -(y - 540); // Move relative to center of screen
-		Serial.print("Mapped X = "); Serial.print(x1);
-		Serial.print("\tMapped Y = "); Serial.println(y1);
-		if (abs(x1) < 100 && abs(y1) < 100) {
-			Mouse.click();
+		int16_t y1 = -(y - 540);
+
+		if (abs(-y) < 3072) {
+			if (abs(x) < 1365) {
+				if (!crazycilckmode) {
+					Mouse.click();
+				}
+				else {
+					if (delaytime > 20) {
+						delaytime -= 20;
+					}
+				}
+			}
+			else if (abs(x) > 2730) {
+				if (!crazycilckmode) {
+					Mouse.click(MOUSE_RIGHT);
+				}
+				else {
+					delaytime += 20;
+				}
+			}
+			else {
+				crazycilckmode = !crazycilckmode;
+				delaytime = 100;
+			}
 			delay(500);
 		}
 		else {
 			Mouse.move(x1 / 100, y1 / 100);
-			delay(20);// Small delay to avoid overwhelming the host
+			delay(20);
 		}
+	}
+
+	if (crazycilckmode) {
+		Mouse.click();
+		delay(delaytime);
 	}
 }
