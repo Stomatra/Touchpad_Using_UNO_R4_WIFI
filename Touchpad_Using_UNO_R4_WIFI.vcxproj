@@ -93,6 +93,7 @@
     <ProjectCapability Include="VisualMicro" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="map0.h" />
     <ClInclude Include="__vm\.Touchpad_Using_UNO_R4_WIFI.vsarduino.h" />
   </ItemGroup>
   <PropertyGroup>

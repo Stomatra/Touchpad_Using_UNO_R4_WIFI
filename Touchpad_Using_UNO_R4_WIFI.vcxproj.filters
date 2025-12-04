@@ -26,5 +26,8 @@
     <ClInclude Include="__vm\.Touchpad_Using_UNO_R4_WIFI.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="map0.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

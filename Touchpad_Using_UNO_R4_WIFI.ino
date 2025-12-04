@@ -12,6 +12,8 @@
 #include <Adafruit_ST7735.h>
 #include <SPI.h>
 
+#include "map0.h"
+
 /*��Ҫ������ʵ��һ�������壬�ܹ�ģ��ʼǱ������·��Ĵ�����������ʹ��*/
 
 #define CS_PIN  4
@@ -50,6 +52,11 @@ void setup() {
 	ts.setRotation(0);
 	Serial.println("Touchscreen initialized successfully");
 
+	tft.init(240, 320);
+	Serial.println("TFT initialized successfully");
+	tft.setRotation(0);
+	tft.drawRGBBitmap(0, 0, map0, 320, 240);
+
 	Mouse.begin();
 	Serial.println("Mouse initialized successfully");
 }
@@ -60,12 +67,14 @@ u_int16_t delaytime = 100;
 void loop() {
 	if (ts.touched()) {
 		TS_Point p = ts.getPoint();
-		int16_t x = map(p.x, 1, 4095, 0, 1920);
-		int16_t y = map(p.y, 1, 4095, 0, 1080);
-		int16_t x1 = x - 960;
-		int16_t y1 = -(y - 540);
+		int16_t x = p.x;
+		int16_t y = p.y;
+		int16_t x1 = map(x, 1, 4095, 0, 1920);
+		int16_t y1 = map(y, 1, 4095, 0, 1080);
+		int16_t x1 = x1 - 960;
+		int16_t y1 = -(y1 - 540);
 
-		if (abs(-y) < 3072) {
+		if (abs(-y) > 3072) {
 			if (abs(x) < 1365) {
 				if (!crazycilckmode) {
 					Mouse.click();
@@ -81,7 +90,9 @@ void loop() {
 					Mouse.click(MOUSE_RIGHT);
 				}
 				else {
-					delaytime += 20;
+					if (delaytime < 1000) {
+						delaytime += 20;
+					}
 				}
 			}
 			else {
