@@ -115,12 +115,10 @@ void highlightButton(int btnIndex, bool pressed) {
 	int x = btnIndex * 80 + 2;
 	int y = 242; int w = 76; int h = 76;
 
-	// 如果是按下/激活状态，用明亮的蓝色；否则用黑色背景
 	uint16_t color = pressed ? COLOR_ACTIVE : COLOR_BG;
 
 	tft.fillRect(x, y, w, h, color);
 
-	// 重新把字印上去 (背景变了，字会被覆盖，所以要重画)
 	tft.setTextColor(COLOR_DBLUE); tft.setTextSize(4);
 	if (btnIndex == 0) { tft.setCursor(28, 266); tft.print("L"); }
 	if (btnIndex == 2) { tft.setCursor(188, 266); tft.print("R"); }
@@ -177,7 +175,7 @@ void loop() {
 				else { Mouse.release(MOUSE_LEFT); isDragLocked = false; }
 				updateDragLockIndicator();
 			}
-			else { // 移动
+			else {
 				int moveX = 0, moveY = 0;
 				if (col == 0) moveX = -MOUSE_SPEED;
 				if (col == 2) moveX = MOUSE_SPEED;
@@ -191,14 +189,8 @@ void loop() {
 		// === B. 下方功能区 (Y >= 240) ===
 		else {
 			int btnIndex = x / 80;
-
-			// 1. 按下时的视觉反馈 (瞬时亮起)
 			if (btnIndex != 1) highlightButton(btnIndex, true);
-
-			// 2. 等待松手
 			while (ts.touched()) delay(10);
-
-			// 3. 核心逻辑分支
 			if (btnIndex == 0) { // 左键 L
 				if (currentClickMode == MODE_NORMAL) {
 					Mouse.click(MOUSE_LEFT);
