@@ -14,8 +14,6 @@
 
 #include "map0.h"
 
-/*��Ҫ������ʵ��һ�������壬�ܹ�ģ��ʼǱ������·��Ĵ�����������ʹ��*/
-
 #define CS_PIN  4
 #define TIRQ_PIN  3
 XPT2046_Touchscreen ts(CS_PIN, TIRQ_PIN);  // Param 2 - Touch IRQ Pin - interrupt enabled polling
@@ -70,11 +68,11 @@ void loop() {
 		int16_t x = p.x;
 		int16_t y = p.y;
 		int16_t x1 = map(x, 1, 4095, 0, 1920);
-		int16_t y1 = map(y, 1, 4095, 0, 1080);
-		int16_t x1 = x1 - 960;
-		int16_t y1 = -(y1 - 540);
+		int16_t y1 = map(y, 1, 4095, 0, 1350);
+		x1 = x1 - 960;
+		y1 = -(y1 - 540);
 
-		if (abs(-y) > 3072) {
+		if (abs(y) > 3072) {
 			if (abs(x) < 1365) {
 				if (!crazycilckmode) {
 					Mouse.click();
