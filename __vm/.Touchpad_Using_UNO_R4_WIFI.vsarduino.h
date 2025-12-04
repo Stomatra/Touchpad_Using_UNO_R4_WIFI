@@ -21,5 +21,6 @@
 #include <tusb_config.h> 
 #include <variant.cpp> 
 #include "..\Touchpad_Using_UNO_R4_WIFI.ino"
+#include "..\Touchpad_Using_UNO_R4_WIFI_2.ino"
 #endif
 #endif

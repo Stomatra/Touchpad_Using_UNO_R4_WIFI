@@ -88,6 +88,10 @@
   <ItemGroup>
     <None Include="src\arduino folders read me.txt">
     </None>
+    <ClCompile Include="Touchpad_Using_UNO_R4_WIFI_2.ino">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectCapability Include="VisualMicro" />

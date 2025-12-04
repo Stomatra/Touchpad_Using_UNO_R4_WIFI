@@ -6,7 +6,6 @@
 #include <XPT2046_Touchscreen.h>
 #include <math.h>
 
-// ================= 1. 硬件引脚 =================
 #define TFT_CS    10
 #define TFT_DC     7
 #define TFT_RST   -1
@@ -16,24 +15,20 @@
 #define TOUCH_CS_PIN   4
 #define TOUCH_IRQ_PIN  3
 
-// ================= 2. 坐标校准 =================
 #define TS_MINX 200
 #define TS_MAXX 3800
 #define TS_MINY 200
 #define TS_MAXY 3800
 
-// ================= UI 颜色定义 =================
 #define COLOR_LBLUE  0x7DFF
 #define COLOR_DBLUE  0x001F
 #define COLOR_BG     ST77XX_BLACK
 // 新增：高亮时的颜色 (比如明亮的蓝色)
 #define COLOR_ACTIVE ST77XX_BLUE
 
-// ================= 对象初始化 =================
 XPT2046_Touchscreen ts(TOUCH_CS_PIN, TOUCH_IRQ_PIN);
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
 
-// ================= 全局变量 =================
 bool isDragLocked = false;
 enum ClickMode { MODE_NORMAL, MODE_1CPS, MODE_5CPS, MODE_10CPS };
 ClickMode currentClickMode = MODE_NORMAL;
@@ -43,7 +38,6 @@ int clickInterval = 0;
 int activeClickButton = 0; // 0=无, 1=左键, 2=右键
 #define MOUSE_SPEED 15
 
-// ================= 辅助函数：画锐利箭头 =================
 void drawArrow(int x1, int y1, int x2, int y2, uint16_t color) {
 	tft.drawLine(x1, y1, x2, y2, color);
 	float arrow_len = 14.0;
@@ -56,11 +50,9 @@ void drawArrow(int x1, int y1, int x2, int y2, uint16_t color) {
 	tft.fillTriangle(x2, y2, x3, y3, x4, y4, color);
 }
 
-// ================= 定制 UI 绘制 =================
 void drawCustomUI() {
 	tft.fillScreen(COLOR_BG);
 
-	// --- 上半部：九宫格 ---
 	tft.drawFastVLine(80, 0, 240, COLOR_LBLUE);
 	tft.drawFastVLine(160, 0, 240, COLOR_LBLUE);
 	tft.drawFastHLine(0, 80, 240, COLOR_LBLUE);
@@ -80,7 +72,6 @@ void drawCustomUI() {
 	drawArrow(100, 140, 50, 190, COLOR_LBLUE);
 	drawArrow(140, 140, 190, 190, COLOR_LBLUE);
 
-	// --- 下半部：功能区 ---
 	tft.fillRect(0, 239, 240, 2, COLOR_DBLUE);
 	tft.drawFastVLine(80, 240, 80, COLOR_DBLUE);
 	tft.drawFastVLine(160, 240, 80, COLOR_DBLUE);
@@ -91,7 +82,6 @@ void drawCustomUI() {
 	tft.drawTriangle(120, 260, 100, 300, 140, 300, COLOR_DBLUE);
 }
 
-// ================= 状态反馈更新 =================
 void updateModeIndicator() {
 	uint16_t color = COLOR_BG;
 	switch (currentClickMode) {
@@ -124,7 +114,6 @@ void highlightButton(int btnIndex, bool pressed) {
 	if (btnIndex == 2) { tft.setCursor(188, 266); tft.print("R"); }
 }
 
-// ================= Setup =================
 void setup() {
 	Serial.begin(115200);
 	Mouse.begin();
@@ -142,7 +131,6 @@ void setup() {
 	ts.setRotation(2);
 }
 
-// ================= Loop =================
 void loop() {
 	// 连点执行逻辑
 	if (isAutoClicking && currentClickMode != MODE_NORMAL) {

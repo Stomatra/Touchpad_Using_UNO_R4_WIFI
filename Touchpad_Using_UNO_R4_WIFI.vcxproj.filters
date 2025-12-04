@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Touchpad_Using_UNO_R4_WIFI.ino" />
+    <ClCompile Include="Touchpad_Using_UNO_R4_WIFI_2.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Touchpad_Using_UNO_R4_WIFI.vsarduino.h">
