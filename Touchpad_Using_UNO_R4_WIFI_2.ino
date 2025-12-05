@@ -174,7 +174,6 @@ void loop() {
 			}
 		}
 
-		// === B. 下方功能区 (Y >= 240) ===
 		else {
 			int btnIndex = x / 80;
 			if (btnIndex != 1) highlightButton(btnIndex, true);
